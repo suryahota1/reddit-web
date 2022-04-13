@@ -1,11 +1,3 @@
-import {
-  Link as ChakraLink,
-  Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-} from '@chakra-ui/react'
 import { withUrqlClient } from 'next-urql'
 import NavBar from '../components/navbar'
 import { createUrqlClient } from '../utils/createUrqlClient'
