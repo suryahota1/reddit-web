@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import { Button } from "@chakra-ui/react";
 import Wrapper from "./../components/Wrapper";
 import InputField from "../components/InputField";
-import { useForgotPasswordMutation, useLoginMutation } from "../generated/graphql";
+import { useLoginMutation } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
@@ -15,7 +15,7 @@ interface loginProps {
 
 const Login: React.FC<loginProps> = ({}) => {
     const [, login] = useLoginMutation();
-    const [, forgotPassword] = useForgotPasswordMutation();
+    
     const router = useRouter();
 
     return (
@@ -45,10 +45,9 @@ const Login: React.FC<loginProps> = ({}) => {
                             type="password"
                         />
                         <Button mt={4} isLoading={isSubmitting} type="submit" bgColor="teal" color="#fff">Login</Button>
-                        <span onClick={async () => {
-                            await forgotPassword({
-                                email: "surya@gmail.com"
-                            });
+                        <span onClick={() => {
+                            console.log("here");
+                            router.push("/forgot-password");
                         }}>Forgot Password</span>
                     </Form>
                 )}
