@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Formik } from "formik";
-import { Button } from "@chakra-ui/react";
+import { Button, Flex, Link } from "@chakra-ui/react";
 import Wrapper from "./../components/Wrapper";
 import InputField from "../components/InputField";
 import { useLoginMutation } from "../generated/graphql";
@@ -8,6 +8,7 @@ import { toErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrqlClient";
+import NextLink from "next/link";
 
 interface loginProps {
 
@@ -17,6 +18,7 @@ const Login: React.FC<loginProps> = ({}) => {
     const [, login] = useLoginMutation();
     
     const router = useRouter();
+    console.log("login page router", router);
 
     return (
         <Wrapper variant="small">
@@ -27,7 +29,9 @@ const Login: React.FC<loginProps> = ({}) => {
                 if ( response.data?.login.errors ) {
                     setErrors(toErrorMap(response.data.login.errors));
                 } else if ( response.data?.login.user ) {
-                    router.push("/");
+                    const next = (router.query.path || "/") as string;
+                    console.log("next --------------", next);
+                    router.push(next);
                 }
             }}
             >
@@ -44,11 +48,14 @@ const Login: React.FC<loginProps> = ({}) => {
                             placeholder="Password"
                             type="password"
                         />
+                        <Flex mt={2}>
+                            <NextLink href="/forgot-password">
+                                <Link ml="auto">
+                                    Forgot Password ?
+                                </Link>
+                            </NextLink>
+                        </Flex>
                         <Button mt={4} isLoading={isSubmitting} type="submit" bgColor="teal" color="#fff">Login</Button>
-                        <span onClick={() => {
-                            console.log("here");
-                            router.push("/forgot-password");
-                        }}>Forgot Password</span>
                     </Form>
                 )}
             </Formik>
