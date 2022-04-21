@@ -1,10 +1,14 @@
-query Posts {
-    posts {
-        id
-        createdAt
-        title
-        text
-        points
-        creatorId
+query Posts($limit: Int!, $cursor: String) {
+  posts(limit: $limit, cursor: $cursor) {
+    id
+    title
+    text
+    points
+    createdAt
+    creator {
+      username
+      email
+      id
     }
+  }
 }
